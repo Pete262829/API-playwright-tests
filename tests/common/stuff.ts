@@ -5,10 +5,10 @@ module.exports = {
     authorisation: async function (){
     const apiRequestContext: APIRequestContext = await request.newContext();
 
-    const response = await apiRequestContext.post("", {
+    const response = await apiRequestContext.post("/*the URL here*/", {
         data: {
-            username: '',
-            password: '',
+            username: '/*what the username is*/',
+            password: '/*the password*/',
         }
         });
   
