@@ -11,7 +11,7 @@ test('authenticate', async ({ page }) => {
   
   var jsonBody = await loginVerify.singleLifeAppJson(); 
 
-  const response = await apiRequestContext.post("https://compare-int-01.underwriteme.co.uk/api/application", {
+  const response = await apiRequestContext.post("", {
       data: jsonBody,
       headers:{
         "Content-Type": "application/json",
