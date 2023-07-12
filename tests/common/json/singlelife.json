@@ -1,0 +1,14 @@
+{"customers": [
+    {
+      "referenceId": "cus-001",
+      "name": "Postman",
+      "surname": "Pete",
+      "title": "MR",
+      "gender": "MALE",
+      "dateOfBirth": "1980-01-01",
+      "smoker": false,
+      "occupation": "secretary-typist",
+      "email": "john.doe@domain.com"
+    }
+  ]
+}
