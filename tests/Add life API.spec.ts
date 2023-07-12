@@ -24,4 +24,7 @@ test('authenticate', async ({ page }) => {
   console.log(await response.text());
 
   await expect(responseCode).toBe(201);
+
+  var responseJson = JSON.parse(response.text());
+  await expect(responseJson.customers.count()).toBe(1);
 });
