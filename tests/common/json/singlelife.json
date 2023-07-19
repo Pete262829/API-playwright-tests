@@ -1,13 +1,13 @@
 {"customers": [
     {
       "referenceId": "cus-001",
-      "name": "Postman",
-      "surname": "Pete",
+      "name": "Test",
+      "surname": "Test",
       "title": "MR",
       "gender": "MALE",
       "dateOfBirth": "1980-01-01",
       "smoker": false,
-      "occupation": "secretary-typist",
+      "occupation": "Secretary",
       "email": "john.doe@domain.com"
     }
   ]
