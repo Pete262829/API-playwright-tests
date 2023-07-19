@@ -22,10 +22,8 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  
   use: {
-
-    //baseURL: 'https://compare-int-01.underwriteme.co.uk/',
-
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
@@ -35,12 +33,13 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    require('dotenv').config(),
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-    },
+    }
 
-    {
+/*     ,{
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
@@ -48,7 +47,7 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-    },
+    }, */
 
     /* Test against mobile viewports. */
     // {
