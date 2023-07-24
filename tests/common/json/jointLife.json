@@ -1,0 +1,48 @@
+{
+    "customers": [
+      {
+        "referenceId": "cus-001",
+        "name": "First",
+        "surname": "Life",
+        "previousSurname": "Smith",
+        "title": "MR",
+        "gender": "MALE",
+        "dateOfBirth": "1980-01-01",
+        "smoker": false,
+        "email": "life@one.com",
+        "occupation": "underwriter",
+        "maritalStatus": "SINGLE",
+        "contactDetails": {
+          "telephoneNumber": "01234 567890",
+          "address": {
+            "line1": "1 Road",
+            "town": "Town",
+            "county": "County",
+            "postcode": "AB1 1BA"
+          }
+        }
+      },
+      {
+        "referenceId": "cus-002",
+        "name": "Second",
+        "surname": "Life",
+        "previousSurname": "Smith",
+        "title": "MRS",
+        "gender": "FEMALE",
+        "dateOfBirth": "1980-10-10",
+        "smoker": false,
+        "email": "life@two.com",
+        "occupation": "Accountant",
+        "maritalStatus": "SINGLE",
+        "contactDetails": {
+          "telephoneNumber": "01234 567890",
+          "address": {
+            "line1": "1 Road",
+            "town": "Town",
+            "county": "County",
+            "postcode": "AB1 1BA"
+          }
+        }
+      }
+    ]
+  }

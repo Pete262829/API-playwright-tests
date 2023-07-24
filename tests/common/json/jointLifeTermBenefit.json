@@ -1,0 +1,21 @@
+{
+    "type": "TERM",
+    "coverAmount": 200000,
+    "coverPeriod": 20,
+    "coverBasis": "LEVEL",
+    "commissionSacrifice": {
+      "initial": 0,
+      "renewal": 2.50,
+      "commissionStyle": "INDEMNITY"
+    },
+    "livesAssured": [
+      {
+        "refersTo": "LIFE1ID",    
+        "waiverOfPremium": true
+      },
+      {
+        "refersTo": "LIFE2ID",
+        "waiverOfPremium": true
+      }
+    ]
+  }
