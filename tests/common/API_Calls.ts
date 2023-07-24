@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import {APIRequestContext, request} from '@playwright/test';
+import {APIRequestContext, expect, request} from '@playwright/test';
 
 module.exports = {
     
@@ -18,15 +18,9 @@ module.exports = {
         return token.access_token;
     },
 
-    singleLifeAppJson: async function(){
-        const responseJson = require("./json/singlelife.json")
-        return responseJson;
-    },
-
-
-    _addLifeAPICall: async function (authtoken: string) {
+    _addLifeAPICall: async function (authtoken: string, fileName: string) {
         const apiRequestContext: APIRequestContext = await request.newContext();
-        var jsonBody = require("./json/singlelife.json");
+        var jsonBody = require("./json/" +`${fileName}`);
 
         const response = await apiRequestContext.post(`${process.env.BASEURL}` + "api/application", {
             data: jsonBody,
@@ -36,10 +30,42 @@ module.exports = {
             }
         });
 
-        const responseCode = await response.status();
-        var responseJson = JSON.parse(await response.text());
-        return responseJson.id;
+        return response;
     },
+
+    _addSecondLifeAPICall: async function (authtoken: string, fileName: string,  appRef: String) {
+        const apiRequestContext: APIRequestContext = await request.newContext();
+        var jsonBody = require("./json/" +`${fileName}`);
+
+        const appURL = `${process.env.BASEURL}` + "api/application/" + `${appRef}` + "/customer";
+        
+        const response = await apiRequestContext.post(`${appURL}`, {
+            data: jsonBody,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${authtoken}`
+            }
+        });
+
+        return response;
+    },
+
+
+    _getCustomerAPICall: async function (authtoken: string, appRef: String) {
+        const apiRequestContext: APIRequestContext = await request.newContext();
+        const appURL = `${process.env.BASEURL}` + "api/application/" + `${appRef}` + "/customer";
+        
+        const response = await apiRequestContext.get(`${appURL}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${authtoken}`
+            }
+        });
+
+        return response;
+    },
+    
+
 
     _deleteAppAPICall: async function (authtoken: string, appID: string){
         const apiRequestContext: APIRequestContext = await request.newContext();
@@ -53,7 +79,43 @@ module.exports = {
         });
         const responseCode = response.status();     
         return responseCode;
+    },
+
+
+    _addTermBenefitAPICall: async function (authtoken: string, appID: String, lifeID: string, fileName: string) {
+        const apiRequestContext: APIRequestContext = await request.newContext();
+        var jsonTemplate = require("./json/" +`${fileName}`);
+
+        var oldArray = JSON.stringify(jsonTemplate).replace("LIFE1ID", `${lifeID}`); //convert to JSON string
+        var sendBody = JSON.parse(oldArray); //convert back to array
+
+        const response = await apiRequestContext.post(`${process.env.BASEURL}` + "api/application/" +`${appID}` + "/product/", {
+            data: sendBody,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${authtoken}`
+            }
+        });
+
+        return response;
+    },
+
+    _addJointTermBenefitAPICall: async function (authtoken: string, appID: String, life1ID: string, life2ID: string, fileName: string) {
+        const apiRequestContext: APIRequestContext = await request.newContext();
+        var jsonTemplate = require("./json/" +`${fileName}`);
+
+        var oldArray = JSON.stringify(jsonTemplate).replace("LIFE1ID", `${life1ID}`); //convert to JSON string
+        var oldArray = JSON.stringify(oldArray).replace("LIFE2ID", `${life2ID}`); //convert to JSON string
+        var sendBody = JSON.parse(oldArray); //convert back to array
+
+        const response = await apiRequestContext.post(`${process.env.BASEURL}` + "api/application/" +`${appID}` + "/product/", {
+            data: sendBody,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${authtoken}`
+            }
+        });
+
+        return response;
     }
-
-
 };

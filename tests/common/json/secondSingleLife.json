@@ -1,0 +1,21 @@
+{
+  "referenceId": "cus-002",
+  "name": "Second",
+  "surname": "Life",
+  "title": "MRS",
+  "gender": "FEMALE",
+  "dateOfBirth": "1980-01-01",
+  "smoker": false,
+  "email": "second@gmail.com",
+  "occupation": "Accountant",
+  "maritalStatus": "SINGLE",
+  "contactDetails": {
+    "telephoneNumber": "01234 567890",
+    "address": {
+      "line1": "1 Road",
+      "town": "Town",
+      "county": "County",
+      "postcode": "AB1 1BA"
+    }
+  }
+}
