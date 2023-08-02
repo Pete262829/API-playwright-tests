@@ -1,16 +1,16 @@
 import dotenv from 'dotenv';
 import {APIRequestContext, expect, request} from '@playwright/test';
+const jsonFunctions = require("./jsonFunctions");
 
 module.exports = {
-    
-    authorisation: async function (){
+    authorisation: async function ( request: any ){
         dotenv.config();
-        const apiRequestContext: APIRequestContext = await request.newContext();
-
-        const response = await apiRequestContext.post(`${process.env.BASEURL}` + "api/auth", {
-            data: {
+        
+        const response = await request.post(`${process.env.BASEURL}api/auth`, {
+                    
+            data: {     
                 username: process.env.USERNAME,
-                password: process.env.PASSWORD,
+                password: process.env.PASSWORD
             }
             });
     
@@ -18,11 +18,11 @@ module.exports = {
         return token.access_token;
     },
 
-    _addLifeAPICall: async function (authtoken: string, fileName: string) {
-        const apiRequestContext: APIRequestContext = await request.newContext();
+    addLifeAPICall: async function (authtoken: string, fileName: string, request: any) {
+        //const apiRequestContext: APIRequestContext = await request.newContext();
         var jsonBody = require("./json/" +`${fileName}`);
 
-        const response = await apiRequestContext.post(`${process.env.BASEURL}` + "api/application", {
+        const response = await request.post(`${process.env.BASEURL}api/application`, {
             data: jsonBody,
             headers: {
                 "Content-Type": "application/json",
@@ -33,13 +33,10 @@ module.exports = {
         return response;
     },
 
-    _addSecondLifeAPICall: async function (authtoken: string, fileName: string,  appRef: String) {
-        const apiRequestContext: APIRequestContext = await request.newContext();
-        var jsonBody = require("./json/" +`${fileName}`);
-
-        const appURL = `${process.env.BASEURL}` + "api/application/" + `${appRef}` + "/customer";
+    addSecondLifeAPICall: async function (authtoken: string, fileName: string,  appRef: String, request: any) {
         
-        const response = await apiRequestContext.post(`${appURL}`, {
+        var jsonBody = require("./json/" +`${fileName}`);
+        const response = await request.post(`${process.env.BASEURL}` + `api/application/${appRef}/customer`, {
             data: jsonBody,
             headers: {
                 "Content-Type": "application/json",
@@ -51,11 +48,9 @@ module.exports = {
     },
 
 
-    _getCustomerAPICall: async function (authtoken: string, appRef: String) {
-        const apiRequestContext: APIRequestContext = await request.newContext();
-        const appURL = `${process.env.BASEURL}` + "api/application/" + `${appRef}` + "/customer";
-        
-        const response = await apiRequestContext.get(`${appURL}`, {
+    getCustomerAPICall: async function (authtoken: string, appRef: String, request: any) {
+                
+        const response = await request.get(`${process.env.BASEURL}api/application/${appRef}/customer`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${authtoken}`
@@ -67,10 +62,9 @@ module.exports = {
     
 
 
-    _deleteAppAPICall: async function (authtoken: string, appID: string){
-        const apiRequestContext: APIRequestContext = await request.newContext();
-
-        const response = await apiRequestContext.delete(`${process.env.BASEURL}` + "api/application/" + `${appID}`, {
+    deleteAppAPICall: async function (authtoken: string, appID: string, request: any){
+        
+        const response = await request.delete(`${process.env.BASEURL}api/application/${appID}`, {
             
             headers: {
                 "Content-Type": "application/json",
@@ -82,14 +76,14 @@ module.exports = {
     },
 
 
-    _addTermBenefitAPICall: async function (authtoken: string, appID: String, lifeID: string, fileName: string) {
-        const apiRequestContext: APIRequestContext = await request.newContext();
+    addTermBenefitAPICall: async function (authtoken: string, appID: String, lifeID: string, fileName: string, request: any) {
+        //const apiRequestContext: APIRequestContext = await request.newContext();
         var jsonTemplate = require("./json/" +`${fileName}`);
 
         var oldArray = JSON.stringify(jsonTemplate).replace("LIFE1ID", `${lifeID}`); //convert to JSON string
         var sendBody = JSON.parse(oldArray); //convert back to array
 
-        const response = await apiRequestContext.post(`${process.env.BASEURL}` + "api/application/" +`${appID}` + "/product/", {
+        const response = await request.post(`${process.env.BASEURL}api/application/${appID}/product/`, {
             data: sendBody,
             headers: {
                 "Content-Type": "application/json",
@@ -100,15 +94,14 @@ module.exports = {
         return response;
     },
 
-    _addJointTermBenefitAPICall: async function (authtoken: string, appID: String, life1ID: string, life2ID: string, fileName: string) {
-        const apiRequestContext: APIRequestContext = await request.newContext();
+    addJointTermBenefitAPICall: async function (authtoken: string, appID: String, life1ID: string, life2ID: string, fileName: string, request: any) {
         var jsonTemplate = require("./json/" +`${fileName}`);
 
         var oldArray = JSON.stringify(jsonTemplate).replace("LIFE1ID", `${life1ID}`); //convert to JSON string
         var oldArray = JSON.stringify(oldArray).replace("LIFE2ID", `${life2ID}`); //convert to JSON string
         var sendBody = JSON.parse(oldArray); //convert back to array
 
-        const response = await apiRequestContext.post(`${process.env.BASEURL}` + "api/application/" +`${appID}` + "/product/", {
+        const response = await request.post(`${process.env.BASEURL}api/application/${appID}/product/`, {
             data: sendBody,
             headers: {
                 "Content-Type": "application/json",
@@ -118,4 +111,5 @@ module.exports = {
 
         return response;
     }
+
 };
