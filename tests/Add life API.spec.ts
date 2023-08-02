@@ -4,10 +4,10 @@ const API_Calls = require("./common/API_Calls");
 const jsonFunctions = require("./common/jsonFunctions");
 
 
-test('Create app with single life', async ({ page }) => {    
+test('Create app with single life', async ({ page, request }) => {    
 
-  var authtoken = await API_Calls.authorisation();
-  var response = await API_Calls._addLifeAPICall(authtoken,"singlelife.json");
+  var authtoken = await API_Calls.authorisation(request);
+  var response = await API_Calls.addLifeAPICall(authtoken,"singlelife.json", request);
   var responseJson = JSON.parse(await response.text());
   
   const responseCode = response.status();
@@ -19,10 +19,10 @@ test('Create app with single life', async ({ page }) => {
 });
 
 
-test('Create app with two lives', async ({ page }) => {    
+  test('Create app with two lives', async ({ page, request }) => {    
 
-  var authtoken = await API_Calls.authorisation();
-  var response = await API_Calls._addLifeAPICall(authtoken,"jointLife.json");
+  var authtoken = await API_Calls.authorisation(request);
+  var response = await API_Calls.addLifeAPICall(authtoken,"jointLife.json", request);
   var responseJson = JSON.parse(await response.text());
   
   const responseCode = response.status();
@@ -34,9 +34,9 @@ test('Create app with two lives', async ({ page }) => {
 });
 
 
-test('Create app via API, check its searchable on front end', async ({ page }) => {    
-  var authtoken = await API_Calls.authorisation();
-  var response = await API_Calls._addLifeAPICall(authtoken,"singlelife.json");
+test('Create app via API, check its searchable on front end', async ({ page, request }) => {    
+  var authtoken = await API_Calls.authorisation(request);
+  var response = await API_Calls.addLifeAPICall(authtoken,"singlelife.json", request);
   var responseJson = JSON.parse(await response.text());
   var appRef = jsonFunctions.getProperty(responseJson,"id");
 
@@ -49,7 +49,7 @@ test('Create app via API, check its searchable on front end', async ({ page }) =
   await page.getByRole('button', { name: 'Search' }).click();
   await page.getByText(`${appRef}`).isVisible;
 
-  var responseCode = await API_Calls._deleteAppAPICall(authtoken, appRef);
+  var responseCode = await API_Calls.deleteAppAPICall(authtoken, appRef, request);
   expect(responseCode).toBe(204);
 
   await page.goto(`${process.env.BASEURL}` + "dashboard");
@@ -61,21 +61,21 @@ test('Create app via API, check its searchable on front end', async ({ page }) =
 
 });
 
-test('Create app with single life then add a second life', async ({ page }) => {    
-  var authtoken = await API_Calls.authorisation();
-  var response = await API_Calls._addLifeAPICall(authtoken,"singlelife.json");
+test('Create app with single life then add a second life', async ({ page, request }) => {    
+  var authtoken = await API_Calls.authorisation(request);
+  var response = await API_Calls.addLifeAPICall(authtoken,"singlelife.json", request);
   var responseJson = JSON.parse(await response.text());
   var appRef = jsonFunctions.getProperty(responseJson,"id");
 
   const firstResponseCode = response.status();
   expect(firstResponseCode).toBe(201);
 
-  var response = await API_Calls._addSecondLifeAPICall(authtoken,"secondSingleLife.json",appRef);
+  var response = await API_Calls.addSecondLifeAPICall(authtoken,"secondSingleLife.json", appRef, request);
 
   const secondResponseCode = response.status();
   expect(secondResponseCode).toBe(201);
 
-  var response = await API_Calls._getCustomerAPICall(authtoken, appRef);
+  var response = await API_Calls.getCustomerAPICall(authtoken, appRef, request);
 
   const getResponseCode = response.status();
   expect(getResponseCode).toBe(200);

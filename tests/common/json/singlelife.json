@@ -8,7 +8,16 @@
       "dateOfBirth": "1980-01-01",
       "smoker": false,
       "occupation": "Secretary",
-      "email": "john.doe@domain.com"
+      "email": "john.doe@domain.com",
+      "contactDetails": {
+        "telephoneNumber": "01234 567890",
+        "address": {
+          "line1": "1 Road",
+          "town": "Town",
+          "county": "County",
+          "postcode": "AB1 1BA"
+        }
+      }
     }
   ]
 }
