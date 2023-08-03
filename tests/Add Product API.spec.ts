@@ -36,7 +36,7 @@ test('Create joint life single benefit app', async ({ page, request }) => {
 
   var jointAppResponse = await API_Calls.addJointTermBenefitAPICall(authtoken, appRef, life1ID,life2ID,JsonfileName, request); 
   
-  const responseCode = jointAppResponse.status();
+  var responseCode = jointAppResponse.status();
   
   var addJointBenJson = JSON.parse(await jointAppResponse.text());
 
@@ -47,7 +47,7 @@ test('Create joint life single benefit app', async ({ page, request }) => {
 });
 
 test('Add Joint Life App With Joint Term', async ({page, request}) => {
-  var finalResponse = Group_API_Calls.createJointLifeJointBenefitApplication("jointLife.json","jointLifeTermBenefit.json", request);
+  var finalResponse = await Group_API_Calls.createJointLifeJointBenefitApplication("jointLife.json","jointLifeTermBenefit.json", request);
 
   const responseCode = finalResponse.status();
   expect(responseCode).toBe(201);

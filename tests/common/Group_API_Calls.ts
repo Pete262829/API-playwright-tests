@@ -6,19 +6,19 @@ module.exports = {
 
     createJointLifeJointBenefitApplication: async function (clientDetailsJson: string, productDetailsJson: string, request: any){
 
-        var clientJsonTemplate = require("./json/" +`${clientDetailsJson}`);
-        var productJsonTemplate = require("./json/" +`${productDetailsJson}`);
+        //var clientJsonTemplate = require("./json/" +`${clientDetailsJson}`);
+        //var productJsonTemplate = require("./json/" +`${productDetailsJson}`);
         
-        const authtoken = await API_Calls.authorisation(request);
+        var authtoken = await API_Calls.authorisation(request);
     
-        const response = await API_Calls.addLifeAPICall(authtoken, clientJsonTemplate, request);
-        var addLifeJsonResponse = JSON.parse(await response.text());
+        var addLiferesponse = await API_Calls.addLifeAPICall(authtoken, clientDetailsJson, request);
+        var addLifeJsonResponse = JSON.parse(await addLiferesponse.text());
     
         var appRef = jsonFunctions.getProperty(addLifeJsonResponse,"id");
         var life1ID = addLifeJsonResponse.customers[0].id;
         var life2ID = addLifeJsonResponse.customers[1].id;
     
-        const jointAppResponse = await API_Calls.addJointTermBenefitAPICall(authtoken, appRef, life1ID,life2ID, productJsonTemplate, request); 
+        var jointAppResponse = await API_Calls.addJointTermBenefitAPICall(authtoken, appRef, life1ID,life2ID, productDetailsJson, request); 
         
         var responseCode = jointAppResponse.status();
         
